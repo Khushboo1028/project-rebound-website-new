@@ -31,7 +31,7 @@ const KeySkillBlock = ({ dataFromKeySkillsBlock, dataFromFirebase }) => {
   const { currentUser } = useAuth();
   let docRef;
   if (currentUser !== null) {
-    console.log("uid ", currentUser.uid);
+    // console.log("uid ", currentUser.uid);
     docRef = doc(db, "users", currentUser.uid);
   }
 

@@ -47,16 +47,36 @@ const NavigationButtons = ({ resumeData, dataFromFirebase }) => {
       }
     }
 
-    if (resumeData.objective !== undefined) {
-      if (resumeData.objective === "") {
-        if (dataFromFirebase.objective !== undefined) {
-          resumeData.objective = dataFromFirebase.objective;
-        } else {
-          resumeData.objective = null;
-        }
+    //TODO: Fix objective
+    // if (resumeData.objective === undefined) {
+    //   if (resumeData.objective === "") {
+    //     if (dataFromFirebase.objective !== undefined) {
+    //       resumeData.objective = dataFromFirebase.objective;
+    //     } else {
+    //       resumeData.objective = null;
+    //     }
+    //   }
+    // } else {
+    //   resumeData.objective = null;
+    // }
+
+    if (resumeData.objective === undefined) {
+      if (
+        dataFromFirebase.objective !== undefined &&
+        dataFromFirebase.objective !== null
+      ) {
+        resumeData.objective = dataFromFirebase.objective;
+      } else {
+        resumeData.objective = null;
       }
-    } else {
-      resumeData.objective = null;
+    }
+
+    if (resumeData.references_info === undefined) {
+      if (dataFromFirebase.references_info !== undefined) {
+        resumeData.references_info = dataFromFirebase.references_info;
+      } else {
+        resumeData.references_info = [];
+      }
     }
 
     console.log("data to send: ", resumeData);

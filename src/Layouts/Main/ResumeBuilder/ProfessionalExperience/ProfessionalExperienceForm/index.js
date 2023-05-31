@@ -515,5 +515,3 @@ const ProfessionalExperienceForm = ({
 };
 
 export default ProfessionalExperienceForm;
-
-//TODO: Fix props for data from firebase to send to main page

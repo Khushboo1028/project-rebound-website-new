@@ -11,8 +11,6 @@ import { doc, onSnapshot } from "firebase/firestore";
 
 let nextId = 0;
 
-//Todo: we set input list as per ids
-
 const AddSkills = () => {
   const [item, setItem] = useState("");
   const [inputList, setInputList] = useState([]);

@@ -86,6 +86,11 @@ const styles = StyleSheet.create({
     marginTop: 1,
     fontFamily: "Helvetica"
   },
+  referenceManager: {
+    fontSize: "10",
+    marginTop: 1,
+    fontFamily: "Helvetica-Bold"
+  },
   skill: {
     fontSize: "10",
     fontFamily: "Helvetica",
@@ -143,11 +148,14 @@ const MyDoc = (data) => {
             </Text>
 
             {resumeData.objective !== null &&
-            resumeData.objective !== undefined ? (
+            resumeData.objective !== undefined &&
+            resumeData.objective.objective !== "" ? (
               <View>
                 <Text style={styles.heading}>Objective</Text>
                 <Text style={styles.line} />
-                <Text style={styles.summary}>{resumeData.objective}</Text>
+                <Text style={styles.summary}>
+                  {resumeData.objective.objective}
+                </Text>
               </View>
             ) : (
               <Text></Text>
@@ -296,6 +304,34 @@ const MyDoc = (data) => {
                       </Text>
                     );
                   }
+                })}
+              </View>
+            ) : (
+              <Text></Text>
+            )}
+
+            {resumeData.references_info !== null &&
+            resumeData.references_info !== undefined &&
+            resumeData.references_info.length > 0 ? (
+              <View style={{ marginTop: "13" }}>
+                <Text style={styles.heading}>References</Text>
+                <Text style={styles.line} />
+                {resumeData.references_info.map((e, index) => {
+                  return (
+                    <View style={styles.viewContainer} key={index}>
+                      <View styles={styles.educationContainer}>
+                        <Text style={styles.title}>{e.companyName}</Text>
+                        <Text style={styles.rightInfo}>{e.date}</Text>
+                      </View>
+
+                      <View styles={styles.educationContainer}>
+                        <Text style={styles.referenceManager}>
+                          {e.managerName + ", " + e.position}
+                        </Text>
+                        <Text style={styles.description}>{e.description}</Text>
+                      </View>
+                    </View>
+                  );
                 })}
               </View>
             ) : (

@@ -4,11 +4,11 @@ import {
   Box,
   Grid,
   TextField,
-  Icon,
-  FormControlLabel,
-  Checkbox
+  Icon
+  // FormControlLabel,
+  // Checkbox
 } from "@mui/material";
-import { multiLineInputStyle, inputStyle } from "../styles";
+import { multiLineInputStyle } from "../styles";
 import { useAuth } from "../../../../firebase/AuthContext";
 import Dialog from "@mui/material/Dialog";
 import Button from "@mui/material/Button";
@@ -24,12 +24,12 @@ const ObjectiveForm = ({ dataFromObjective, dataFromFirebase }) => {
 
   let docRef;
   if (currentUser !== null) {
-    console.log("uid ", currentUser.uid);
+    // console.log("uid ", currentUser.uid);
     docRef = doc(db, "users", currentUser.uid);
   }
 
   const [objective, setObjective] = useState("");
-  const [isSkipped, setSkipped] = useState(false);
+  // const [isSkipped, setSkipped] = useState(false);
   const [valueChanged, setValueChanged] = useState(0);
   const [openHelp, setOpenHelp] = useState(false);
 
@@ -39,16 +39,16 @@ const ObjectiveForm = ({ dataFromObjective, dataFromFirebase }) => {
         if (dataFromFirebase !== undefined) {
           const objectiveFirebase = dataFromFirebase.objective;
 
-          if (objectiveFirebase !== null) {
-            setObjective(objectiveFirebase);
+          if (objectiveFirebase !== null && objectiveFirebase !== undefined) {
+            setObjective(objectiveFirebase.objective);
           } else {
             setObjective("");
-            setSkipped(true);
+            // setSkipped(true);
           }
-          dataFromObjective({ objective: objective, isSkipped: isSkipped });
+          dataFromObjective({ objective: objective });
         }
       } else {
-        dataFromObjective({ objective: objective, isSkipped: isSkipped });
+        dataFromObjective({ objective: objective });
       }
     }
 
@@ -134,7 +134,8 @@ const ObjectiveForm = ({ dataFromObjective, dataFromFirebase }) => {
               }
             }}
           >
-            Give an objective or summary for your choice
+            Give an objective or summary for your choice. Please feel free to
+            skip this section
           </Box>
         </Grid>
         {/* Help Button */}
@@ -199,7 +200,7 @@ const ObjectiveForm = ({ dataFromObjective, dataFromFirebase }) => {
                 label="Objective / Summary"
                 variant="standard"
                 multiline
-                disabled={isSkipped}
+                // disabled={isSkipped}
                 value={objective}
                 name="description"
                 onChange={(e) => {
@@ -212,7 +213,7 @@ const ObjectiveForm = ({ dataFromObjective, dataFromFirebase }) => {
         </Grid>
 
         {/* This is the isSkipped row */}
-        <Grid item xs={12}>
+        {/* <Grid item xs={12}>
           <FormControlLabel
             sx={inputStyle}
             checked={isSkipped}
@@ -222,7 +223,7 @@ const ObjectiveForm = ({ dataFromObjective, dataFromFirebase }) => {
               setSkipped(!isSkipped);
             }}
           />
-        </Grid>
+        </Grid> */}
       </Grid>
       {openHelp ? showHelpModal() : <div />}
     </Box>

@@ -13,6 +13,7 @@ import Footer from "../Layouts/Footer";
 import ObjectiveForm from "../Layouts/Main/ResumeBuilder/ObjectiveForm";
 import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../firebase/firebase";
+import References from "../Layouts/Main/ResumeBuilder/References";
 
 const ResumeBuilder = () => {
   const { currentUser } = useAuth();
@@ -29,6 +30,7 @@ const ResumeBuilder = () => {
     useState();
   const [skillsInfo, setSkillsInfo] = useState();
   const [objective, setObjective] = useState();
+  const [referencesInfo, setReferencesInfo] = useState();
 
   const [dataFromFirebase, setDatafromFirebase] = useState();
 
@@ -38,7 +40,8 @@ const ResumeBuilder = () => {
     education_info: educationInfo,
     professional_experience_info: professionalExperienceInfo,
     skills_info: skillsInfo,
-    objective: objective
+    objective: objective,
+    references_info: referencesInfo
   };
 
   useEffect(() => {
@@ -77,25 +80,15 @@ const ResumeBuilder = () => {
   };
 
   const dataFromObjective = (objectiveInfo) => {
-    console.log(objectiveInfo);
-    if (objectiveInfo.isSkipped) {
-      setObjective(null);
-    } else {
-      if (
-        objectiveInfo.objective === undefined ||
-        objectiveInfo.objective === ""
-      ) {
-        setObjective("");
-      } else {
-        //setting from props
-
-        console.log("objective is ", objective);
-      }
-    }
+    setObjective(objectiveInfo);
   };
 
   const dataFromProfessionalExperienceInfo = (professionalExperienceInfo) => {
     setProfessionalExperienceInfo(professionalExperienceInfo);
+  };
+
+  const dataFromReferencesInfo = (referencesInfo) => {
+    setReferencesInfo(referencesInfo);
   };
 
   const dataFromSkillsInfo = (skillsInfo) => {
@@ -138,6 +131,13 @@ const ResumeBuilder = () => {
         <div style={{ padding: "1rem", marginTop: "0.5rem" }}>
           <KeySkills
             dataFromSkillsInfo={dataFromSkillsInfo}
+            dataFromFirebase={dataFromFirebase}
+          />
+        </div>
+
+        <div style={{ padding: "1rem", marginTop: "0.5rem" }}>
+          <References
+            dataFromReferencesInfoProps={dataFromReferencesInfo}
             dataFromFirebase={dataFromFirebase}
           />
         </div>
