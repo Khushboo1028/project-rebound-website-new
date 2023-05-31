@@ -103,6 +103,7 @@ const MyDoc = (data) => {
   const navigate = useNavigate();
   const { currentUser } = useAuth();
   const [resumeData] = useState(data);
+  let count = 0;
 
   useEffect(() => {
     if (currentUser) {
@@ -314,24 +315,69 @@ const MyDoc = (data) => {
             resumeData.references_info !== undefined &&
             resumeData.references_info.length > 0 ? (
               <View style={{ marginTop: "13" }}>
-                <Text style={styles.heading}>References</Text>
-                <Text style={styles.line} />
                 {resumeData.references_info.map((e, index) => {
-                  return (
-                    <View style={styles.viewContainer} key={index}>
-                      <View styles={styles.educationContainer}>
-                        <Text style={styles.title}>{e.companyName}</Text>
-                        <Text style={styles.rightInfo}>{e.date}</Text>
-                      </View>
+                  let flag = true;
+                  if (
+                    e.position === "" &&
+                    e.date === "" &&
+                    e.managerName === "" &&
+                    e.companyName === "" &&
+                    e.description === ""
+                  ) {
+                    flag = false;
+                  }
 
-                      <View styles={styles.educationContainer}>
-                        <Text style={styles.referenceManager}>
-                          {e.managerName + ", " + e.position}
-                        </Text>
-                        <Text style={styles.description}>{e.description}</Text>
-                      </View>
-                    </View>
-                  );
+                  if (flag) {
+                    count = count + 1;
+
+                    if (count === 1) {
+                      return (
+                        <View>
+                          <Text style={styles.heading}>References</Text>
+                          <Text style={styles.line} />
+                          <View style={styles.viewContainer} key={index}>
+                            <View styles={styles.educationContainer}>
+                              <Text style={styles.title}>{e.companyName}</Text>
+                              <Text style={styles.rightInfo}>{e.date}</Text>
+                            </View>
+
+                            <View styles={styles.educationContainer}>
+                              <Text style={styles.referenceManager}>
+                                {e.managerName + ", " + e.position}
+                              </Text>
+                              <Text style={styles.description}>
+                                {e.description}
+                              </Text>
+                            </View>
+                          </View>
+                        </View>
+                      );
+                    } else {
+                      //count is >1 and flag = true
+
+                      return (
+                        <View>
+                          <View style={styles.viewContainer} key={index}>
+                            <View styles={styles.educationContainer}>
+                              <Text style={styles.title}>{e.companyName}</Text>
+                              <Text style={styles.rightInfo}>{e.date}</Text>
+                            </View>
+
+                            <View styles={styles.educationContainer}>
+                              <Text style={styles.referenceManager}>
+                                {e.managerName + ", " + e.position}
+                              </Text>
+                              <Text style={styles.description}>
+                                {e.description}
+                              </Text>
+                            </View>
+                          </View>
+                        </View>
+                      );
+                    }
+                  } else {
+                    return <View></View>;
+                  }
                 })}
               </View>
             ) : (
