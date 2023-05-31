@@ -5,7 +5,13 @@ import { Colors } from "../../../../constants/Colors";
 import { updateData } from "../../../../firebase/firebaseReadWrite";
 import { useAuth } from "../../../../firebase/AuthContext";
 import { db } from "../../../../firebase/firebase";
-import { doc } from "firebase/firestore";
+import {
+  arrayUnion,
+  Timestamp,
+  doc,
+  updateDoc,
+  setDoc
+} from "firebase/firestore";
 
 import PDFPage from "../../../../pages/PDFPage";
 
@@ -47,19 +53,6 @@ const NavigationButtons = ({ resumeData, dataFromFirebase }) => {
       }
     }
 
-    //TODO: Fix objective
-    // if (resumeData.objective === undefined) {
-    //   if (resumeData.objective === "") {
-    //     if (dataFromFirebase.objective !== undefined) {
-    //       resumeData.objective = dataFromFirebase.objective;
-    //     } else {
-    //       resumeData.objective = null;
-    //     }
-    //   }
-    // } else {
-    //   resumeData.objective = null;
-    // }
-
     if (resumeData.objective === undefined) {
       if (
         dataFromFirebase.objective !== undefined &&
@@ -81,6 +74,36 @@ const NavigationButtons = ({ resumeData, dataFromFirebase }) => {
 
     console.log("data to send: ", resumeData);
     updateData(docRef, resumeData);
+  };
+
+  const saveProgressBtnOnClick = async () => {
+    saveData();
+    let data = {
+      saved_time: Timestamp.fromDate(new Date()),
+      saved_data: resumeData
+    };
+
+    console.log(data);
+
+    // await docRef.update({
+    //   saved_progress_logging: FirebaseApp.fir    FieldValue.arrayUnion(data)
+    // });
+
+    // await updateDoc(docRef, {
+    //   saved_progress_logging: arrayUnion(data)
+    // });
+
+    await setDoc(
+      docRef,
+      {
+        saved_progress_logging: arrayUnion(data)
+      },
+      { merge: true }
+    )
+      .then(console.log("Document added"))
+      .catch((e) => {
+        console.log("error is ", e);
+      });
   };
 
   const openResumeDownloadModel = () => {
@@ -115,7 +138,7 @@ const NavigationButtons = ({ resumeData, dataFromFirebase }) => {
                   fontSize: { md: "1rem", sm: "0.7rem", xs: "0.5rem" },
                   "&:hover": { backgroundColor: Colors.primaryColor }
                 }}
-                onClick={saveData}
+                onClick={saveProgressBtnOnClick}
               >
                 Save Progress
               </Button>

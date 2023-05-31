@@ -26,7 +26,6 @@ const ReferencesForm = ({ dataFromFirebase, datafromReferencesInfo }) => {
 
   const [openHelp, setOpenHelp] = useState(false);
   const [count, setCount] = useState(0);
-  // const [skipReference, setSkipReference] = useState(false);
   const [inputList, setInputList] = useState([
     {
       position: "",
