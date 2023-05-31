@@ -45,6 +45,7 @@ const Help = () => {
         let ObjectiveFieldHelp = false;
         let professionalExperienceFormHelp = false;
         let resolved = false;
+        let referencesHelp = false;
 
         if (
           personData.personal_info !== null &&
@@ -132,6 +133,13 @@ const Help = () => {
           resolved = personData.helpResolved;
         }
 
+        if (
+          personData.referencesHelp !== undefined &&
+          personData.referencesHelp !== null
+        ) {
+          referencesHelp = personData.referencesHelp;
+        }
+
         data.push({
           id: data.length,
           userId: doc.id,
@@ -144,7 +152,8 @@ const Help = () => {
           personalInfoHelp: personalInfoHelp,
           ObjectiveFieldHelp: ObjectiveFieldHelp,
           professionalExperienceFormHelp: professionalExperienceFormHelp,
-          resolved: resolved
+          resolved: resolved,
+          referencesHelp: referencesHelp
         });
         // console.log("data is ", data);
       }
@@ -186,6 +195,11 @@ const Help = () => {
     {
       headerName: "Professional Experience",
       field: "professionalExperienceFormHelp",
+      type: "boolean"
+    },
+    {
+      headerName: "References",
+      field: "referencesHelp",
       type: "boolean"
     },
     {
@@ -283,9 +297,6 @@ const Help = () => {
             }
           }}
           pageSizeOptions={[5, 10]}
-          // slots={{
-          //   toolbar: GridToolbar
-          // }}
           components={{
             Toolbar: GridToolbar
           }}
